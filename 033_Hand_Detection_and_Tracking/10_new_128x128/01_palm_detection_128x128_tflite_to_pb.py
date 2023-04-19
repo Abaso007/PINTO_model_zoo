@@ -47,11 +47,11 @@ def parse_json():
 
 def optimizing_hardswish_for_edgetpu(input_op, name=None):
     ret_op = None
-    if not optimizing_for_edgetpu_flg:
-        ret_op = input_op * tf.nn.relu6(input_op + 3) * 0.16666667
-    else:
-        ret_op = input_op * tf.nn.relu6(input_op + 3) * 0.16666666
-    return ret_op
+    return (
+        input_op * tf.nn.relu6(input_op + 3) * 0.16666666
+        if optimizing_for_edgetpu_flg
+        else input_op * tf.nn.relu6(input_op + 3) * 0.16666667
+    )
 
 def make_graph(ops, op_types, interpreter):
 
